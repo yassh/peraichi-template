@@ -1,0 +1,10 @@
+@import '_reset';
+@import '_variables';
+
+body {
+  color: var(--color);
+
+  @media screen and (max-width: 480px) {
+    display: flex;
+  }
+}

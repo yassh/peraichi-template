@@ -1,0 +1,54 @@
+{
+  "name": "peraichi-template",
+  "version": "1.0.0",
+  "browserslist": [
+    "last 2 versions"
+  ],
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "jquery": "^3.2.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "browser-sync": "^2.18.13",
+    "chokidar-cli": "^1.2.0",
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-plugin-import": "^2.7.0",
+    "fixpack": "^2.3.1",
+    "imagemin-cli": "^3.0.0",
+    "npm-run-all": "^4.1.1",
+    "nunjucks-cli": "^0.5.1",
+    "postcss-cli": "^4.1.1",
+    "shx": "^0.2.2",
+    "stylelint": "^8.1.1",
+    "stylelint-config-standard": "^17.0.0",
+    "stylelint-order": "^0.7.0"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "npm-run-all clean -p build:*",
+    "build:babel-polyfill": "shx mkdir -p ./dist/js && shx cp ./node_modules/babel-polyfill/dist/polyfill.min.js ./dist/js/babel-polyfill.js",
+    "build:css": "postcss './src/css/**/[^_]*.css' --dir ./dist/css",
+    "build:html": "nunjucks '**/[^_]*.njk' --path ./src --out ./dist",
+    "build:img": "imagemin './src/img/**/*' --out-dir=./dist/img",
+    "build:jquery": "shx mkdir -p ./dist/js && shx cp ./node_modules/jquery/dist/jquery.min.js ./dist/js/jquery.js",
+    "build:js": "babel ./src/js --out-dir ./dist/js",
+    "clean": "shx rm -rf ./dist",
+    "fix": "npm-run-all fix:*",
+    "fix:css": "stylelint './src/css/**/*.css' --fix",
+    "fix:js": "eslint './*.js' './src/js/**/*.js' --fix",
+    "fix:pack": "fixpack",
+    "lint": "npm-run-all lint:*",
+    "lint:css": "stylelint './src/css/**/*.css'",
+    "lint:js": "eslint './*.js' './src/js/**/*.js'",
+    "serve": "browser-sync start --server ./dist --files ./dist --open external --no-ghost-mode",
+    "start": "npm-run-all build -p watch serve",
+    "watch": "npm-run-all -p watch:*",
+    "watch:css": "chokidar './src/css/**/*.css' --command 'npm run build:css'",
+    "watch:html": "chokidar './src/**/*.njk' --command 'npm run build:html'",
+    "watch:img": "chokidar './src/img/**/*' --command 'npm run build:img'",
+    "watch:js": "chokidar './src/js/**/*.js' --command 'npm run build:js'"
+  }
+}
